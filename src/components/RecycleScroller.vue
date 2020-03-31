@@ -11,6 +11,7 @@
   >
     <div
       v-if="$slots.before"
+      ref="before"
       class="vue-recycle-scroller__slot"
     >
       <slot
@@ -531,6 +532,9 @@ export default {
           end: el.scrollLeft + el.clientWidth,
         }
       }
+
+      const beforeSlotSize = this.$refs.before ? this.$refs.before[isVertical ? 'offsetHeight' : 'offsetWidth'] : 0
+      scrollState.start -= beforeSlotSize
 
       return scrollState
     },

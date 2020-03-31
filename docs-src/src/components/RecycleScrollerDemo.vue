@@ -24,6 +24,12 @@
       </label>
       <label>
         <input
+          v-model="beforeSlot"
+          type="checkbox"
+        > before slot
+      </label>
+      <label>
+        <input
           v-model="pageMode"
           type="checkbox"
         > page mode
@@ -67,6 +73,11 @@
           @visible="onVisible"
           @hidden="onHidden"
         >
+          <template v-if="beforeSlot" v-slot:before>
+            <div class="before-slot">
+              #before slot
+            </div>
+          </template>
           <template v-slot="props">
             <div
               v-if="props.item.type === 'letter'"
@@ -113,6 +124,7 @@ export default {
     enableLetters: true,
     pageMode: false,
     pageModeFullPage: true,
+    beforeSlot: false,
   }),
 
   computed: {
@@ -225,6 +237,14 @@ export default {
 .scroller {
   width: 100%;
   height: 100%;
+}
+
+.before-slot {
+  padding: 24px;
+  font-size: 24px;
+  height: 500px;
+  box-sizing: border-box;
+  background: lightgreen;
 }
 
 .letter {
