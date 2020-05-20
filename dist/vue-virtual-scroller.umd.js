@@ -1116,6 +1116,8 @@
           };
         }
 
+        var beforeSlotSize = this.$refs.before ? this.$refs.before[isVertical ? 'offsetHeight' : 'offsetWidth'] : 0;
+        scrollState.start -= beforeSlotSize;
         return scrollState;
       },
       applyPageMode: function applyPageMode() {
@@ -1288,7 +1290,7 @@
         _vm.$slots.before
           ? _c(
               "div",
-              { staticClass: "vue-recycle-scroller__slot" },
+              { ref: "before", staticClass: "vue-recycle-scroller__slot" },
               [_vm._t("before")],
               2
             )
