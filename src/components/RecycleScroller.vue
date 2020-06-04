@@ -566,22 +566,24 @@ export default {
       this.listenerTarget = null
     },
 
-    scrollToItem (index) {
+    scrollToItem (index, smooth) {
       let scroll
       if (this.itemSize === null) {
         scroll = index > 0 ? this.sizes[index - 1].accumulator : 0
       } else {
         scroll = index * this.itemSize
       }
-      this.scrollToPosition(scroll)
+      this.scrollToPosition(scroll, smooth)
     },
 
-    scrollToPosition (position) {
+    scrollToPosition (position, smooth) {
+      const scrollOptions = { behavior: smooth ? 'smooth' : 'auto' }
       if (this.direction === 'vertical') {
-        this.$el.scrollTop = position
+        scrollOptions.top = position
       } else {
-        this.$el.scrollLeft = position
+        scrollOptions.left = position
       }
+      this.$el.scrollTo(scrollOptions)
     },
 
     itemsLimitError () {
