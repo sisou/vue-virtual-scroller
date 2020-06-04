@@ -1116,6 +1116,8 @@
           };
         }
 
+        var beforeSlotSize = this.$refs.before ? this.$refs.before[isVertical ? 'offsetHeight' : 'offsetWidth'] : 0;
+        scrollState.start -= beforeSlotSize;
         return scrollState;
       },
       applyPageMode: function applyPageMode() {
@@ -1141,7 +1143,7 @@
         this.listenerTarget.removeEventListener('resize', this.handleResize);
         this.listenerTarget = null;
       },
-      scrollToItem: function scrollToItem(index) {
+      scrollToItem: function scrollToItem(index, smooth) {
         var scroll;
 
         if (this.itemSize === null) {
@@ -1150,14 +1152,20 @@
           scroll = index * this.itemSize;
         }
 
-        this.scrollToPosition(scroll);
+        this.scrollToPosition(scroll, smooth);
       },
-      scrollToPosition: function scrollToPosition(position) {
+      scrollToPosition: function scrollToPosition(position, smooth) {
+        var scrollOptions = {
+          behavior: smooth ? 'smooth' : 'auto'
+        };
+
         if (this.direction === 'vertical') {
-          this.$el.scrollTop = position;
+          scrollOptions.top = position;
         } else {
-          this.$el.scrollLeft = position;
+          scrollOptions.left = position;
         }
+
+        this.$el.scrollTo(scrollOptions);
       },
       itemsLimitError: function itemsLimitError() {
         var _this4 = this;
@@ -1288,7 +1296,7 @@
         _vm.$slots.before
           ? _c(
               "div",
-              { staticClass: "vue-recycle-scroller__slot" },
+              { ref: "before", staticClass: "vue-recycle-scroller__slot" },
               [_vm._t("before")],
               2
             )
